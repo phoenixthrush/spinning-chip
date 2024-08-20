@@ -1,15 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="assets/css/nya.css" />
-    </head>
-    <body>
-        <video src="assets/media/chip.mp4" autoplay muted loop></video>
-        <audio controls autoplay loop style="display: none">
-            <source src="assets/media/chip.mp3" type="audio/mpeg" />
-        </audio>
-        <script src="assets/js/nya.js"></script>
-    </body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            user-select: none;
+            cursor: none;
+            background-color: black;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <video src="chip.mp4" autoplay loop></video>
+    <script>
+        function requestFullscreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        function confirmPageUnload() {
+            window.addEventListener("beforeunload", (event) => {
+                event.returnValue = "Please don't go!";
+            });
+        }
+
+        function blockRightClick() {
+            document.addEventListener("contextmenu", (event) => event.preventDefault());
+        }
+
+        function blockBackButton() {
+            window.addEventListener("popstate", () => {
+                window.history.forward();
+            });
+        }
+
+        function wave() {
+            var i, n, s = "";
+
+            for (i = 0; i < 20; i++) {
+                n = Math.floor(Math.sin(Date.now() / 200 + i / 2) * 4) + 4;
+                s += String.fromCharCode(0x2581 + n);
+            }
+
+            document.title = s;
+            setTimeout(wave, 50);
+        }
+
+        requestFullscreen();
+        confirmPageUnload();
+        blockRightClick();
+        blockBackButton();
+        wave();
+    </script>
+</body>
+
 </html>
